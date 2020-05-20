@@ -1,0 +1,36 @@
+web:
+  build: .
+  dockerfile: Dockerfile
+  ports:
+    - "8585:80"
+  links:
+    - db
+  volumes:
+    - .:/var/www:cached
+  environment:
+    - XDEBUG_CONFIG=idekey=PHPSTORM remote_host=host.docker.internal
+    - PHP_IDE_CONFIG=serverName=pizza
+db:
+  image: mariadb
+  restart: always
+  volumes:
+    - ./mysql:/var/lib/mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_USER: admin
+    MYSQL_PASSWORD: test
+    MYSQL_DATABASE: pizza
+  ports:
+    - "8586:3306"
+testdb:
+  image: mariadb
+  restart: always
+  volumes:
+    - ./mysql_test:/var/lib/mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_USER: admin
+    MYSQL_PASSWORD: test
+    MYSQL_DATABASE: pizza-test
+  ports:
+    - "8587:3306"
