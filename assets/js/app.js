@@ -19,3 +19,5 @@ var vm = new Vue({
         test: 'HelloWorld!',
     }
 })
+
+// alert('asd');

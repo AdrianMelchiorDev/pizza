@@ -49,6 +49,5 @@ RUN echo 'max_execution_time=600' >> /usr/local/etc/php/php.ini
 RUN echo 'memory_limit=512M' >>  /usr/local/etc/php/php.ini
 
 COPY ./.docker_bash_history /root/.bash_history
-RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
 WORKDIR /var/www

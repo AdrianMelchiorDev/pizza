@@ -4,11 +4,8 @@
 
 {% block body %}
 
-    <h1>Hello {{ controller_name }}! ✅</h1>
-    <span>{{ test }}</span>
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/src/Controller/IndexController.php'|file_link(0) }}">src/Controller/IndexController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/templates/index/index.html.twig'|file_link(0) }}">templates/index/index.html.twig</a></code></li>
-    </ul>
+    <h1>Hello@PizzaPete's! ✅</h1>
+    <span> {{ '{{' }} test {{ '}}' }}</span>
+    <a href="{{  route }}"
+
 {% endblock %}
