@@ -8,6 +8,7 @@ class IndexController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstrac
 {
     /**
      * @Route("/", name="index")
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
      */
     public function index()
     {

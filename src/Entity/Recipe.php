@@ -16,21 +16,25 @@ class Recipe
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @var int $id
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @var string $name
      */
     private $name;
 
     /**
      * @ORM\ManyToMany(targetEntity=Pizza::class, inversedBy="recipes")
+     * @var Pizza $pizza
      */
     private $pizza;
 
     /**
      * @ORM\ManyToMany(targetEntity=Ingredient::class, mappedBy="recipe")
+     * @var Ingredient $ingredients
      */
     private $ingredients;
 
@@ -67,7 +71,7 @@ class Recipe
 
     public function addPizza(Pizza $pizza): self
     {
-        if (!$this->pizza->contains($pizza)) {
+        if (! $this->pizza->contains($pizza)) {
             $this->pizza[] = $pizza;
         }
 
@@ -93,7 +97,7 @@ class Recipe
 
     public function addIngredient(Ingredient $ingredient): self
     {
-        if (!$this->ingredients->contains($ingredient)) {
+        if (! $this->ingredients->contains($ingredient)) {
             $this->ingredients[] = $ingredient;
             $ingredient->addRecipe($this);
         }

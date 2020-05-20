@@ -8,6 +8,7 @@ class RecipeController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
 {
     /**
      * @Route("/recipe", name="recipe")
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
      */
     public function index()
     {

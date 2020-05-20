@@ -16,21 +16,25 @@ class Ingredient
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @var int $id
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @var string $name
      */
     private $name;
 
     /**
      * @ORM\ManyToMany(targetEntity=Recipe::class, inversedBy="ingredients")
+     * @var recipe $recipe
      */
     private $recipe;
 
     /**
      * @ORM\Column(type="decimal", precision=2, scale=2)
+     * @var Decimal $price
      */
     private $price;
 
@@ -66,7 +70,7 @@ class Ingredient
 
     public function addRecipe(Recipe $recipe): self
     {
-        if (!$this->recipe->contains($recipe)) {
+        if (! $this->recipe->contains($recipe)) {
             $this->recipe[] = $recipe;
         }
 

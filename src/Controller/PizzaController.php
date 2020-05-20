@@ -8,6 +8,7 @@ class PizzaController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstrac
 {
     /**
      * @Route("/pizza", name="pizza")
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
      */
     public function index()
     {
