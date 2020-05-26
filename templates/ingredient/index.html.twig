@@ -3,18 +3,29 @@
 {% block title %}Hello IngredientController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Zutaten</h1>
+    <table>
+        <tr>
+            <th>Id</th><th>Name</th><th>Preis in €</th>
+        </tr>
+        {% for key, ingredient in ingredients %}
+            <tr>
+                <td>{{ ingredient.id }}</td><td>{{ ingredient.name }}</td><td>{{ ingredient.price }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <a href="{{ path("ingredients_new") }}">Neue Zutat hinzufügen</a>
+    <a href="{{ path('index') }}">Zurück zum Hauptmenü</a>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/src/Controller/IngredientController.php'|file_link(0) }}">src/Controller/IngredientController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/templates/ingredient/index.html.twig'|file_link(0) }}">templates/ingredient/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <data-table
+            api-url="{{ path('ingredients_index') }}"
+            sort-by="state"
+            :sort-desc="false"
+            :per-page="10"
+            :fields="[
+                        {key: 'name', label: 'Name', sortable: true},
+                        {key: 'price', label: 'Preis', sortable: true},
+                    ]">
+    </data-table>
 {% endblock %}

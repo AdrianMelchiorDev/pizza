@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/pizza", name="pizza_")
+ **/
 class PizzaController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
-     * @Route("/pizza", name="pizza")
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
+     * @Route("/", name="index")
      */
     public function index()
     {

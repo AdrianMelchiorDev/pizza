@@ -12,12 +12,18 @@ import '../css/app.css';
 // import $ from 'jquery';
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
+import DataTable from './components/DataTable'
+
 
 var vm = new Vue({
     el: '#app',
     data: {
         test: 'HelloWorld!',
-    }
+    },
+    components:{
+        DataTable,
+
+    },
 })
 
 // alert('asd');

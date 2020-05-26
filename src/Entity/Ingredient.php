@@ -6,6 +6,7 @@ use App\Repository\IngredientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=IngredientRepository::class)
@@ -22,21 +23,23 @@ class Ingredient
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      * @var string $name
      */
     private $name;
+
+    /**
+     * @ORM\Column(type="decimal", precision=7, scale=2)
+     * @Assert\NotBlank
+     * @var Decimal $price
+     */
+    private $price;
 
     /**
      * @ORM\ManyToMany(targetEntity=Recipe::class, inversedBy="ingredients")
      * @var recipe $recipe
      */
     private $recipe;
-
-    /**
-     * @ORM\Column(type="decimal", precision=2, scale=2)
-     * @var Decimal $price
-     */
-    private $price;
 
     public function __construct()
     {
@@ -88,7 +91,7 @@ class Ingredient
 
     public function getPrice(): ?string
     {
-        return $this->price;
+        return str_replace('.', ',', $this->price);
     }
 
     public function setPrice(string $price): self
@@ -96,5 +99,10 @@ class Ingredient
         $this->price = $price;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name . '(' . $this->getPrice() . '€)';
     }
 }

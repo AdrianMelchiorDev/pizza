@@ -5,10 +5,9 @@
 {% block body %}
 
     <h1>Hello@PizzaPete's!</h1>
-{#    <span> {{ '{{' }} test {{ '}}' }}</span>#}
     <ul>
-        <li><a href="{{  path('pizza') }}">Pizzen</a></li>
-        <li><a href="{{  path('recipe') }}">Rezept</a></li>
-        <li><a href="{{  path('ingredients') }}">Zutaten</a></li>
+        <li><a href="{{  path('ingredients_index') }}">Zutaten</a></li>
+        <li><a href="{{  path('recipe_index') }}">Rezepte</a></li>
+        <li><a href="{{  path('pizza_index') }}">Pizzen</a></li>
     </ul>
 {% endblock %}

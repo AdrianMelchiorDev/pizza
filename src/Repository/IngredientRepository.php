@@ -19,6 +19,40 @@ class IngredientRepository extends ServiceEntityRepository
         parent::__construct($registry, Ingredient::class);
     }
 
+    /**
+     * @param String $sort
+     * @param bool   $sortDesc
+     * @param int    $page
+     * @param int    $limit
+     * @return array
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function find4Ajax(string $sort, bool $sortDesc, int $page, int $limit): array
+    {
+        $sortValues = ["name", "price"];
+
+        if (! \in_array($sort, $sortValues)) {
+            $sort = "name";
+        }
+
+        $totalRows = $this->createQueryBuilder('i')
+            ->select('COUNT/s.id')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $items = $this->createQueryBuilder('i')
+            ->orderBy($sort)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        return ["totalRows" => $totalRows, "items" => $items];
+    }
+
+
+
+
     // /**
     //  * @return Ingredient[] Returns an array of Ingredient objects
     //  */

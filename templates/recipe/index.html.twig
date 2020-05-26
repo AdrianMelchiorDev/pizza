@@ -3,18 +3,22 @@
 {% block title %}Hello RecipeController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+        <h1>Alle Rezepte</h1>
+        <table>
+            <tr>
+                <th>Id</th><th>Name</th>
+            </tr>
+            {% for key, recipe in recipes %}
+            <tr>
+                <td>{{ key }}</td><td>{{ recipe.name }}</td><td>
+                    {% for ingedient in recipe.ingredients %}
+                        {{ ingredient }},
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/src/Controller/RecipeController.php'|file_link(0) }}">src/Controller/RecipeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/templates/recipe/index.html.twig'|file_link(0) }}">templates/recipe/index.html.twig</a></code></li>
-    </ul>
-</div>
+        <a href="{{ path('recipe_new') }}">Neues Rezept anlegen</a>
+        <a href="{{ path('index') }}">Zurück zum Hauptmenü</a>
 {% endblock %}
