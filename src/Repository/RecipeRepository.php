@@ -19,6 +19,34 @@ class RecipeRepository extends ServiceEntityRepository
         parent::__construct($registry, Recipe::class);
     }
 
+    /**
+     * @param string $sort
+     * @param bool $sortDesc
+     * @param int $page
+     * @param int $limit
+     * @return array
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function find4Ajax(string $sort, bool $sortDesc, int $page, int $limit)
+    {
+        $totalRows = $this->createQueryBuilder('r')
+            ->select("COUNT(r.id)")
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $items = $this->createQueryBuilder('r')
+            ->select('r.id, r.name')
+//            ->leftJoin('recipe_ingredient', 'ri')
+//            ->leftJoin('Ingredient', 'i')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->orderBy("r." . $sort, $sortDesc ? 'DESC' : 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return ["totalRows" => $totalRows, "items" => $items];
+    }
     // /**
     //  * @return Recipe[] Returns an array of Recipe objects
     //  */

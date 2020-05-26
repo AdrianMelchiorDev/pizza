@@ -11,6 +11,7 @@ class PizzaController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstrac
 {
     /**
      * @Route("/", name="index")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index()
     {

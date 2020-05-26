@@ -20,37 +20,33 @@ class IngredientRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param String $sort
-     * @param bool   $sortDesc
-     * @param int    $page
-     * @param int    $limit
+     * @param string $sort
+     * @param bool $sortDesc
+     * @param int $page
+     * @param int $limit
      * @return array
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function find4Ajax(string $sort, bool $sortDesc, int $page, int $limit): array
     {
-        $sortValues = ["name", "price"];
-
-        if (! \in_array($sort, $sortValues)) {
-            $sort = "name";
-        }
+//        $sortValues = ['name', 'price'];
 
         $totalRows = $this->createQueryBuilder('i')
-            ->select('COUNT/s.id')
+            ->select("COUNT(i.id)")
             ->getQuery()
             ->getSingleScalarResult();
 
         $items = $this->createQueryBuilder('i')
-            ->orderBy($sort)
+            ->select('i.name, i.price')
+            ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit)
+            ->orderBy("i." . $sort, $sortDesc ? 'DESC' : 'ASC')
             ->getQuery()
             ->getResult();
 
         return ["totalRows" => $totalRows, "items" => $items];
     }
-
-
 
 
     // /**

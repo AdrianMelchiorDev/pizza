@@ -6,7 +6,6 @@ use App\Repository\IngredientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=IngredientRepository::class)
@@ -17,33 +16,31 @@ class Ingredient
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @var int $id
+     * @var int
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     * @var string $name
+     * @var string
      */
     private $name;
 
     /**
-     * @ORM\Column(type="decimal", precision=7, scale=2)
-     * @Assert\NotBlank
-     * @var Decimal $price
+     * @ORM\Column(type="decimal", precision=10, scale=2)
+     * @var float
      */
     private $price;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Recipe::class, inversedBy="ingredients")
-     * @var recipe $recipe
+     * @ORM\ManyToMany(targetEntity=Recipe::class, mappedBy="ingredients")
+     * @var array
      */
-    private $recipe;
+    private $recipes;
 
     public function __construct()
     {
-        $this->recipe = new ArrayCollection();
+        $this->recipes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,37 +60,15 @@ class Ingredient
         return $this;
     }
 
-    /**
-     * @return Collection|Recipe[]
-     */
-    public function getRecipe(): Collection
-    {
-        return $this->recipe;
-    }
-
-    public function addRecipe(Recipe $recipe): self
-    {
-        if (! $this->recipe->contains($recipe)) {
-            $this->recipe[] = $recipe;
-        }
-
-        return $this;
-    }
-
-    public function removeRecipe(Recipe $recipe): self
-    {
-        if ($this->recipe->contains($recipe)) {
-            $this->recipe->removeElement($recipe);
-        }
-
-        return $this;
-    }
-
     public function getPrice(): ?string
     {
-        return str_replace('.', ',', $this->price);
+        return $this->price;
     }
 
+    /**
+     * @param string $price
+     * @return $this
+     */
     public function setPrice(string $price): self
     {
         $this->price = $price;
@@ -101,8 +76,47 @@ class Ingredient
         return $this;
     }
 
-    public function __toString()
+    /**
+     * @return Collection|Recipe[]
+     */
+    public function getRecipes(): Collection
     {
-        return $this->name . '(' . $this->getPrice() . '€)';
+        return $this->recipes;
+    }
+
+    /**
+     * @param Recipe $recipe
+     * @return $this
+     */
+    public function addRecipe(Recipe $recipe): self
+    {
+        if (! $this->recipes->contains($recipe)) {
+            $this->recipes[] = $recipe;
+            $recipe->addIngredient($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Recipe $recipe
+     * @return $this
+     */
+    public function removeRecipe(Recipe $recipe): self
+    {
+        if ($this->recipes->contains($recipe)) {
+            $this->recipes->removeElement($recipe);
+            $recipe->removeIngredient($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function __toString(): ?string
+    {
+        return $this->getName();
     }
 }

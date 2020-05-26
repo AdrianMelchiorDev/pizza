@@ -4,28 +4,26 @@
 
 {% block body %}
     <h1>Zutaten</h1>
-    <table>
-        <tr>
-            <th>Id</th><th>Name</th><th>Preis in €</th>
-        </tr>
-        {% for key, ingredient in ingredients %}
-            <tr>
-                <td>{{ ingredient.id }}</td><td>{{ ingredient.name }}</td><td>{{ ingredient.price }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-
-    <a href="{{ path("ingredients_new") }}">Neue Zutat hinzufügen</a>
-    <a href="{{ path('index') }}">Zurück zum Hauptmenü</a>
+<style>
+    li.page-item{
+        list-style-type: none;
+        color: red;
+    }
+</style>
 
     <data-table
-            api-url="{{ path('ingredients_index') }}"
-            sort-by="state"
+            api-url="{{ path("ingredients_index") }}"
+            sort-by="name"
             :sort-desc="false"
-            :per-page="10"
+            :per-page="5"
             :fields="[
                         {key: 'name', label: 'Name', sortable: true},
                         {key: 'price', label: 'Preis', sortable: true},
+                        {key: 'options', label: 'Optionen', sortable: false, class:'options'}
                     ]">
     </data-table>
+
+
+    <a href="{{ path("ingredients_new") }}">Neue Zutat hinzufügen</a>
+    <a href="{{ path("index") }}">Zurück zum Hauptmenü</a>
 {% endblock %}

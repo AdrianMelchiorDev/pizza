@@ -3,22 +3,26 @@
 {% block title %}Hello RecipeController!{% endblock %}
 
 {% block body %}
-        <h1>Alle Rezepte</h1>
-        <table>
-            <tr>
-                <th>Id</th><th>Name</th>
-            </tr>
-            {% for key, recipe in recipes %}
-            <tr>
-                <td>{{ key }}</td><td>{{ recipe.name }}</td><td>
-                    {% for ingedient in recipe.ingredients %}
-                        {{ ingredient }},
-                    {% endfor %}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
+    <h1>Alle Rezepte</h1>
 
-        <a href="{{ path('recipe_new') }}">Neues Rezept anlegen</a>
-        <a href="{{ path('index') }}">Zurück zum Hauptmenü</a>
+    <data-table
+            api-url="{{ path("recipe_index") }}"
+            sort-by="name"
+            :sort-desc="false"
+            :per-page="5"
+            :fields="[
+                        {key: 'name', label: 'Name', sortable: true},
+                        // {key: 'ingredients', label: 'Zutaten', sortable: false},
+                        {key: 'options', label: 'Optionen', sortable: false, class:'options'}
+                    ]">
+        <template v-slot:cell(options)="{row, callAndRefresh}">
+            <b-button size="sm" :href="'/recipe/edit/'+row.item.id" class="mr-2">
+                <i class="fas fa-edit mr-1"></i>Bearbeiten
+            </b-button>
+        </template>
+    </data-table>
+
+
+    <a href="{{ path('recipe_newRecipe') }}">Neues Rezept anlegen</a>
+    <a href="{{ path('index') }}">Zurück zum Hauptmenü</a>
 {% endblock %}

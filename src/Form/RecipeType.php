@@ -12,10 +12,19 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class RecipeType
+ * @package App\Form
+ */
 class RecipeType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $options;
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Name'
@@ -32,12 +41,20 @@ class RecipeType extends AbstractType
                 'mapped' => false
 
             ])
+            ->add('cookingTime')
             ->add('submit', SubmitType::class, [
                 'label' => 'Absenden'
-            ]);
+            ])
+            ->add('cancel', SubmitType::class, [
+                'label' => 'Abbrechen'
+            ])
+        ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Recipe::class,

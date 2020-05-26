@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Ingredient;
 use App\Form\IngredientType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,14 +23,12 @@ class IngredientController extends AbstractController
     {
         $ir = $this->getDoctrine()->getRepository(Ingredient::class);
 
-        if($request->isXmlHttpRequest()){
-
-            $rq = $request->query->get;
+        if ($request->isXmlHttpRequest()) {
             return new JsonResponse($ir->find4Ajax(
-                $rq->get('sort', 'name'),
-                $rq->getBoolean('sortDesc', false),
-                $rq->getInt('page', 1),
-                $rq->getInt('size', 1)
+                $request->query->get('sort', 'name'),
+                $request->query->getBoolean('sortDesc', false),
+                $request->query->getInt('page', 1),
+                $request->query->getInt('size', 1)
             ));
         }
 
@@ -44,7 +42,7 @@ class IngredientController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function new(Request $request)
+    public function new(Request $request): Response
     {
         // create a new ingredient
         $ingredient = new Ingredient();
@@ -52,19 +50,16 @@ class IngredientController extends AbstractController
         $form = $this->createForm(IngredientType::class);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $ingredient = $form->getData();
             $em->persist($ingredient);
             $em->flush();
 
             return $this->redirectToRoute('ingredients_index');
-
         }
         return $this->render('/ingredient/new.html.twig', [
             'form' => $form->createView()
         ]);
     }
-
-
 }

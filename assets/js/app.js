@@ -14,6 +14,11 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import DataTable from './components/DataTable'
 
+Vue.use(BootstrapVue, {
+    BModal: {
+        cancelTitle: 'Abbrechen',
+    },
+})
 
 var vm = new Vue({
     el: '#app',

@@ -16,32 +16,37 @@ class Recipe
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @var int $id
+     * @var int
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @var string $name
+     * @var string
      */
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Pizza::class, inversedBy="recipes")
-     * @var Pizza $pizza
+     * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
+     * @var float
      */
-    private $pizza;
+    private $cookingTime;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Ingredient::class, mappedBy="recipe")
-     * @var Ingredient $ingredients
+     * @ORM\ManyToMany(targetEntity=Ingredient::class, inversedBy="recipes")
+     * @var array
      */
     private $ingredients;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Pizza::class, mappedBy="recipes")
+     */
+    private $pizzas;
+
     public function __construct()
     {
-        $this->pizza = new ArrayCollection();
         $this->ingredients = new ArrayCollection();
+        $this->pizzas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,28 +66,14 @@ class Recipe
         return $this;
     }
 
-    /**
-     * @return Collection|Pizza[]
-     */
-    public function getPizza(): Collection
+    public function getCookingTime(): ?string
     {
-        return $this->pizza;
+        return $this->cookingTime;
     }
 
-    public function addPizza(Pizza $pizza): self
+    public function setCookingTime(string $cookingTime): self
     {
-        if (! $this->pizza->contains($pizza)) {
-            $this->pizza[] = $pizza;
-        }
-
-        return $this;
-    }
-
-    public function removePizza(Pizza $pizza): self
-    {
-        if ($this->pizza->contains($pizza)) {
-            $this->pizza->removeElement($pizza);
-        }
+        $this->cookingTime = $cookingTime;
 
         return $this;
     }
@@ -99,7 +90,6 @@ class Recipe
     {
         if (! $this->ingredients->contains($ingredient)) {
             $this->ingredients[] = $ingredient;
-            $ingredient->addRecipe($this);
         }
 
         return $this;
@@ -109,7 +99,34 @@ class Recipe
     {
         if ($this->ingredients->contains($ingredient)) {
             $this->ingredients->removeElement($ingredient);
-            $ingredient->removeRecipe($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Pizza[]
+     */
+    public function getPizzas(): Collection
+    {
+        return $this->pizzas;
+    }
+
+    public function addPizza(Pizza $pizza): self
+    {
+        if (! $this->pizzas->contains($pizza)) {
+            $this->pizzas[] = $pizza;
+            $pizza->addRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removePizza(Pizza $pizza): self
+    {
+        if ($this->pizzas->contains($pizza)) {
+            $this->pizzas->removeElement($pizza);
+            $pizza->removeRecipe($this);
         }
 
         return $this;
