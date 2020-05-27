@@ -3,10 +3,10 @@
 {% block title %}Hello RecipeController!{% endblock %}
 
 {% block body %}
-    <h1>Alle Rezepte</h1>
+    <h1>Zutaten des Rezepts</h1>
 
     <data-table
-            api-url="{{ path("recipe_index") }}"
+            api-url="{{ path("recipe_showRecipe", {recipe:recipe.id}) }}"
             sort-by="name"
             :sort-desc="false"
             :per-page="5"
@@ -16,11 +16,11 @@
                         {key: 'options', label: 'Optionen', sortable: false, class:'options'}
                     ]">
         <template v-slot:cell(options)="{row, callAndRefresh}">
-            <b-button size="sm" :href="'/recipe/showRecipe/'+row.item.id" class="mr-2">
-                <i class="fas fa-edit mr-1"></i>Zutaten anzeigen
-            </b-button>
             <b-button size="sm" :href="'/recipe/edit/'+row.item.id" class="mr-2">
-                <i class="fas fa-edit mr-1"></i>Bearbeiten
+                <i class="fas fa-edit mr-1"></i>Zutat bearbeiten
+            </b-button>
+            <b-button size="sm" :href="'/recipe/deleteIngredient/'+row.item.id" class="mr-2">
+                <i class="fas fa-edit mr-1"></i>Zutaten löschen
             </b-button>
         </template>
     </data-table>

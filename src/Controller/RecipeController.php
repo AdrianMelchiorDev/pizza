@@ -71,10 +71,37 @@ class RecipeController extends AbstractController
     }
 
     /**
+     * @Route("/showRecipe/{recipe}",name="showRecipe")
      * @param Recipe $recipe
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return JsonResponse|Response
+     */
+    public function show(Recipe $recipe, Request $request)
+    {
+
+        $rr = $this->getDoctrine()->getRepository(Recipe::class);
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse($rr->findIngredients4Ajax(
+                $request->query->get('sort', 'name'),
+                $request->query->getBoolean('sortDesc', false),
+                $request->query->getInt('page', 1),
+                $request->query->getInt('size', 1),
+                $recipe
+            ));
+        }
+
+        return $this->render('recipe/show.html.twig', [
+            'recipe'=> $recipe
+        ]);
+    }
+
+    /**
+     * @Route("/edit/{recipe}", name="editRecipe")
+     * @param Recipe $recipe
      * @param Request $request
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function edit(Recipe $recipe, Request $request)
     {

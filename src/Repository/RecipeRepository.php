@@ -47,6 +47,33 @@ class RecipeRepository extends ServiceEntityRepository
 
         return ["totalRows" => $totalRows, "items" => $items];
     }
+
+
+    public function findIngredients4Ajax(string $sort, bool $sortDesc, int $page, int $limit, Recipe $recipe)
+    {
+
+        $totalRows = $this->createQueryBuilder('r')
+            ->leftJoin('r.ingredients', 'i')
+            ->select("COUNT(r.id)")
+            ->where('r.id = :recipe')
+            ->setParameter('recipe', $recipe)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $items = $this->createQueryBuilder('r')
+            ->select('r.id, i.name')
+            ->leftJoin('r.ingredients', 'i')
+//            ->leftJoin('Ingredient', 'i')
+            ->where('r.id = :recipe')
+            ->setParameter('recipe', $recipe)
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->orderBy("r." . $sort, $sortDesc ? 'DESC' : 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return ["totalRows" => $totalRows, "items" => $items];
+    }
     // /**
     //  * @return Recipe[] Returns an array of Recipe objects
     //  */
