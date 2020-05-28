@@ -33,7 +33,7 @@ class RecipeController extends AbstractController
             ));
         }
 
-        return $this->render('recipe/index.html.twig', [
+        return $this->render('recipe/recipeIndex.html.twig', [
             'recipes' => $rr->findAll()
         ]);
     }
@@ -65,7 +65,7 @@ class RecipeController extends AbstractController
 
             return $this->redirectToRoute('recipe_index');
         }
-        return $this->render('recipe/new.html.twig', [
+        return $this->render('recipeNew.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -91,7 +91,7 @@ class RecipeController extends AbstractController
             ));
         }
 
-        return $this->render('recipe/show.html.twig', [
+        return $this->render('recipeShow.html.twig', [
             'recipe'=> $recipe
         ]);
     }
@@ -121,7 +121,7 @@ class RecipeController extends AbstractController
             return $this->redirectToRoute('recipe_index');
         }
 
-        return $this->render('recipe/edit.html.twig', [
+        return $this->render('recipeEdit.html.twig', [
             'form' => $form->createView()
         ]);
     }
