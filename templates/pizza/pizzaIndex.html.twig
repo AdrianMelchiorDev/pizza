@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PizzaController!{% endblock %}
+
+{% block body %}
+    <div>
+
+        <h1>Pizza</h1>
+        <my-card></my-card>
+        <my-card
+                v-for="card in cards"
+                :key="card.id"
+                :title="card.title"
+        ></my-card>
+
+        <a href="{{ path("ingredients_new") }}">Neue Zutat hinzufügen</a>
+        <a href="{{ path("index") }}">Zurück zum Hauptmenü</a>
+    </div>
+{% endblock %}

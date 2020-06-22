@@ -32,7 +32,7 @@ class IngredientController extends AbstractController
             ));
         }
 
-        return $this->render('ingredient/index.html.twig', [
+        return $this->render('ingredient/ingredientIndex.html.twig', [
             'ingredients' => $ir->findAll()
         ]);
     }
@@ -58,7 +58,7 @@ class IngredientController extends AbstractController
 
             return $this->redirectToRoute('ingredients_index');
         }
-        return $this->render('/ingredient/new.html.twig', [
+        return $this->render('ingredientNew.html.twig', [
             'form' => $form->createView()
         ]);
     }

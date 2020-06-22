@@ -12,7 +12,7 @@ class IndexController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstrac
      */
     public function index()
     {
-        return $this->render('index/index.html.twig', [
+        return $this->render('index/indexIndex.html.twig', [
             'controller_name' => 'IndexController',
         ]);
     }

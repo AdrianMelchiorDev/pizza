@@ -15,7 +15,7 @@ class PizzaController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstrac
      */
     public function index()
     {
-        return $this->render('pizza/index.html.twig', [
+        return $this->render('pizza/pizzaIndex.html.twig', [
             'controller_name' => 'PizzaController',
         ]);
     }
